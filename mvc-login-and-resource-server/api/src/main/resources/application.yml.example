@@ -1,0 +1,13 @@
+debug: true
+server:
+  port: 3001
+
+auth0:
+  audience: {YOUR-API-AUDIENCE}
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://{YOUR-DOMAIN}/

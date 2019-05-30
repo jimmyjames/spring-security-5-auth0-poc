@@ -1,0 +1,39 @@
+debug: true
+server:
+  port: 3000
+
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: ERROR
+    com.example.demo: TRACE
+
+# The following is standard Spring Security OAuth2 configuration.
+# Note OOTB there's a good amount of config here
+# If desired, it would be possible to provide some auto-config SDK/starter lib that could reduce this.
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            client-id: {YOUR-CLIENT-ID}
+            client-secret: {YOUR-CLIENT-SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+            authorization-grant-type: authorization_code
+            # TODO - haven't gotten implicit to work. Also even if it does, nonce isn't supported OOTB yet:
+            # https://github:com/spring-projects/spring-security/issues/4442:
+            # authorization-grant-type: implicit
+            # client-authentication-method: form
+            # Spring will handle code exchange at /login/oauth2/code/{provider}
+            redirect-uri-template: http://localhost:3000/login/oauth2/code/auth0
+            client-name: Spring Security 5 Prototype
+        provider:
+          auth0:
+            # trailing slash is important!
+            issuer-uri: https://{YOUR-DOMAIN}/
+            # otherwise displays the principal id
+            user-name-attribute: name

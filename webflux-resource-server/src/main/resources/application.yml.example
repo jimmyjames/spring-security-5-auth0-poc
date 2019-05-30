@@ -1,0 +1,11 @@
+debug: true
+server:
+  port: 3000
+
+# The following is standard Spring Security OAuth2 configuration.
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://{YOUR-DOMAIN}/

@@ -1,0 +1,37 @@
+debug: true
+server:
+  port: 3000
+
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: ERROR
+    com.example.demo: TRACE
+    
+auth0:
+  audience: {YOUR-API-ADIENCE}
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            client-id: {YOUR-CLIENT-ID}
+            client-secret: {YOUR-CLIENT-SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+              - read:expenses
+              - offline_access
+            authorization-grant-type: authorization_code
+#           Spring will handle code exchange at /login/oauth2/code/{provider}
+            redirect-uri-template: http://localhost:3000/login/oauth2/code/auth0
+            client-name: Spring Security 5 Prototype
+        provider:
+          auth0:
+            # trailing slash is important!
+            issuer-uri: https://{YOUR-DOMAIN}/
+            # otherwise displays the principal id
+            user-name-attribute: name
