@@ -1,33 +1,28 @@
 package com.example.demo;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import java.time.Instant;
+import java.util.List;
 
 @Controller
 public class WebAppController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
     private final OAuth2AuthorizedClientService authorizedClientService;
 
-    public WebAppController(RestTemplate restTemplate, OAuth2AuthorizedClientService authorizedClientService) {
-        this.restTemplate = restTemplate;
+    public WebAppController(WebClient webClient, OAuth2AuthorizedClientService authorizedClientService) {
+        this.webClient = webClient;
         this.authorizedClientService = authorizedClientService;
     }
 
@@ -46,11 +41,17 @@ public class WebAppController {
     @RequestMapping("/expenses")
     public String getExpenses(Model model, OAuth2AuthenticationToken authentication) {
 
-        // call API - note the API is responsible for verifying the access token!
-        ResponseEntity<String> result = restTemplate.exchange("http://localhost:3001/expenses", HttpMethod.GET,
-                null, String.class);
+        // MVC app needs to block, as thymeleaf only supports reactive data in WebFlux (non-MVC) environments
+        // But WebClient will handle token refresh for us (!!)
+        List<Expense> block = webClient.get()
+                .uri("http://localhost:3001/expenses")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(Expense.class)
+                .collectList()
+                .block();
 
-        model.addAttribute("expenses", result.getBody());
+        model.addAttribute("expenses", block);
         return "expenses";
     }
 

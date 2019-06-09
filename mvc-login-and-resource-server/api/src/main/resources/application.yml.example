@@ -3,8 +3,9 @@ server:
   port: 3001
 
 auth0:
-  audience: {YOUR-API-AUDIENCE}
+  audience: {YOUR-API-ADIENCE}
 
+# The following is standard Spring Security OAuth2 configuration.
 spring:
   security:
     oauth2:
