@@ -18,7 +18,22 @@
 </div>
 <h1>OAuth 2.0 Login with Spring Security</h1>
 <div>
-    Your expenses: <span style="font-weight:bold" th:text="${expenses}"></span>
+    <table>
+        <thead>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Approved</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="expense : ${expenses}">
+            <td>[[${expense.description}]]</td>
+            <td>[[${expense.amount}]]</td>
+            <td>[[${expense.approved}]]</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
