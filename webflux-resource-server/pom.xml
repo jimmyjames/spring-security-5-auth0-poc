@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>oidc</name>
-    <description>OIDC with Spring Security 5 and Okta</description>
+    <description>WebFlux resource server with Auth0</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
