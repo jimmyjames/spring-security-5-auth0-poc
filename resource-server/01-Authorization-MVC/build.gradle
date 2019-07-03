@@ -1,0 +1,84 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'com.gradle.build-scan' version '2.0.2'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id "io.freefair.lombok" version "3.7.5"
+}
+
+group = 'com.auth0'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.4.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
+    implementation 'org.springframework.security:spring-security-config'
+}
+
+// <dependencies>
+//         <dependency>
+//             <groupId>org.springframework.boot</groupId>
+//             <artifactId>spring-boot-starter-actuator</artifactId>
+//         </dependency>
+
+//         <dependency>
+//             <groupId>org.springframework.boot</groupId>
+//             <artifactId>spring-boot-starter-security</artifactId>
+//         </dependency>
+
+//         <dependency>
+//             <groupId>org.springframework.boot</groupId>
+//             <artifactId>spring-boot-starter-web</artifactId>
+//         </dependency>
+
+//         <dependency>
+//             <groupId>org.springframework.security.oauth.boot</groupId>
+//             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+//             <version>2.1.4.RELEASE</version>
+//         </dependency>
+
+//         <dependency>
+//             <groupId>org.springframework.security</groupId>
+//             <artifactId>spring-security-oauth2-resource-server</artifactId>
+//         </dependency>
+//         <dependency>
+//             <groupId>org.springframework.security</groupId>
+//             <artifactId>spring-security-oauth2-jose</artifactId>
+//         </dependency>
+//         <dependency>
+//             <groupId>org.springframework.security</groupId>
+//             <artifactId>spring-security-config</artifactId>
+//         </dependency>
+
+//         <dependency>
+//             <groupId>org.glassfish.jaxb</groupId>
+//             <artifactId>jaxb-runtime</artifactId>
+//             <version>2.3.1</version>
+//         </dependency>
+
+//         <dependency>
+//             <groupId>org.springframework.boot</groupId>
+//             <artifactId>spring-boot-starter-test</artifactId>
+//             <scope>test</scope>
+//         </dependency>
+
+//         <dependency>
+//             <groupId>org.json</groupId>
+//             <artifactId>json</artifactId>
+//             <version>20171018</version>
+//         </dependency>
+//     </dependencies>
