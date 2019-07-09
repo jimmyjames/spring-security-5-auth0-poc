@@ -3,7 +3,7 @@ server:
   port: 3000
 
 auth0:
-  audience: {YOUR-API-AUDIENCE}
+  audience: {API_IDENTIFIER}
 
 # The following is standard Spring Security OAuth2 configuration.
 spring:
@@ -12,4 +12,4 @@ spring:
       resourceserver:
         jwt:
           # Note the trailing slash is important!
-          issuer-uri: https://{YOUR-DOMAIN}/
+          issuer-uri: https://{DOMAIN}/
