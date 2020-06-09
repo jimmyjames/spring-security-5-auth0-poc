@@ -8,20 +8,21 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final LogoutController logoutController;
+    private final LogoutHandler logoutHandler;
 
-    public SecurityConfig(LogoutController logoutController) {
-        this.logoutController = logoutController;
+    public SecurityConfig(LogoutHandler logoutHandler) {
+        this.logoutHandler = logoutHandler;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Need to configure to handle proper logout from Auth0
-        http.authorizeRequests().anyRequest().authenticated()
-                .and().oauth2Login()
-                .and().logout()
+        http.authorizeRequests()
+                .mvcMatchers("/", "/images/**").permitAll()
+                .anyRequest().authenticated()
+            .and().oauth2Login()
+            .and().logout()
                 .logoutSuccessUrl("/")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .addLogoutHandler(logoutController);
+                .addLogoutHandler(logoutHandler);
     }
 }
