@@ -27,6 +27,7 @@ public class LogoutHandler extends SecurityContextLogoutHandler {
 
     public LogoutHandler(ClientRegistrationRepository clientRegistrationRepository,
                          @Value("${spring.security.oauth2.client.provider.auth0.issuer-uri}") String domain) {
+
         this.clientRegistrationRepository = clientRegistrationRepository;
         this.domain = domain;
     }
@@ -35,6 +36,7 @@ public class LogoutHandler extends SecurityContextLogoutHandler {
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
                        Authentication authentication) {
 
+        // Invalidate the session and clear the security context
         super.logout(httpServletRequest, httpServletResponse, authentication);
 
         String returnTo = ServletUriComponentsBuilder.fromCurrentContextPath().build().toString();
@@ -45,12 +47,12 @@ public class LogoutHandler extends SecurityContextLogoutHandler {
                 returnTo
         );
 
+        log.info("Will attempt to redirect to logout URL: {}", logoutUrl);
         try {
             httpServletResponse.sendRedirect(logoutUrl);
         } catch (IOException ioe) {
             log.error("Error redirecting to logout URL", ioe);
         }
-
     }
 
     private ClientRegistration getClientRegistration() {
