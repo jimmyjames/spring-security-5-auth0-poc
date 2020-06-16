@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Spring MVC Security Quickstart</title>
+    <title>Spring WebFlux Login Quickstart</title>
 </head>
 <div class="nav-container mb-3" th:fragment="navbar">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -29,15 +29,7 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav d-none d-md-block">
-
-                    <!-- Login button: show if NOT authenticated -->
-                    <li sec:authorize="!isAuthenticated()" class="nav-item">
-                        <a th:href="@{/oauth2/authorization/auth0}" id="qsLoginBtn" class="btn btn-primary btn-margin">Login</a>
-                    </li>
-                    <!-- / Login button -->
-
-                    <!-- Fullsize dropdown: show if authenticated -->
-                    <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                    <li th:if="${profile}" class="nav-item dropdown">
                         <a
                                 class="nav-link dropdown-toggle"
                                 href="#"
@@ -58,18 +50,13 @@
                             </a>
                         </div>
                     </li>
-                    <!-- /Fullsize dropdown -->
-
+                    <li th:unless="${profile}" class="nav-item">
+                        <a th:href="@{/oauth2/authorization/auth0}" id="qsLoginBtn" class="btn btn-primary btn-margin">Login</a>
+                    </li>
                 </ul>
-
-                <!-- Responsive login button: show if NOT authenticated -->
-                <ul sec:authorize="!isAuthenticated()" class="navbar-nav d-md-none">
-                    <a th:href="@{/oauth2/authorization/auth0}" id="qsLoginBtn" class="btn btn-primary btn-block">Login</a>
-                </ul>
-                <!-- /Responsive login button -->
 
                 <!-- Responsive profile dropdown: show if authenticated -->
-                <ul sec:authorize="isAuthenticated()" class="navbar-nav d-md-none justify-content-between" style="min-height: 120px;">
+                <ul th:if="${profile}" class="navbar-nav d-md-none justify-content-between" style="min-height: 120px;">
                     <li class="nav-item">
                         <span class="user-info">
                         <!-- Profile image should be set to the profile picture from the id token -->
@@ -88,6 +75,12 @@
                         <a th:href="@{/logout}"> Log out</a>
                     </li>
                 </ul>
+
+                <!-- Responsive login button: show if NOT authenticated -->
+                <ul th:unless="${profile}" class="navbar-nav d-md-none">
+                    <a th:href="@{/oauth2/authorization/auth0}" id="qsLoginBtn" class="btn btn-primary btn-block">Login</a>
+                </ul>
+                <!-- /Responsive login button -->
             </div>
         </div>
     </nav>

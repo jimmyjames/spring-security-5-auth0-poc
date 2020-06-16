@@ -1,8 +1,8 @@
-# Spring Boot 2 Login - MVC
+# Spring Boot 2 Login - WebFlux
 
 This sample demonstrates:
 
-- Adding authentication with Auth0 to a Spring Boot 2 MVC application
+- Adding authentication with Auth0 to a Spring Boot 2 WebFlux application
 - Accessing profile information of the authenticated user
 - Only allowing authenticated users to access certain resources
 
