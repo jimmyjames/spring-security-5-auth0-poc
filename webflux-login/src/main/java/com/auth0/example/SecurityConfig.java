@@ -7,6 +7,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
@@ -43,12 +44,14 @@ public class SecurityConfig {
     public ServerLogoutSuccessHandler logoutSuccessHandler() {
         // Change this as needed to URI where users should be redirected to after logout
         String returnTo = "http://localhost:3000/";
-        String logoutUrl = String.format(
-                "%sv2/logout?client_id=%s&returnTo=%s",
-                this.issuer,
-                this.clientId,
-                returnTo
-        );
+
+        // Build the URL to log the user out of Auth0 and redirect them to the home page.
+        // URL will look like https://YOUR-DOMAIN/v2/logout?clientId=YOUR-CLIENT-ID&returnTo=http://localhost:3000
+        String logoutUrl = UriComponentsBuilder
+                .fromHttpUrl(issuer + "v2/logout?client_id={clientId}&returnTo={returnTo}")
+                .encode()
+                .buildAndExpand(clientId, returnTo)
+                .toUriString();
 
         RedirectServerLogoutSuccessHandler handler = new RedirectServerLogoutSuccessHandler();
         handler.setLogoutSuccessUrl(URI.create(logoutUrl));
